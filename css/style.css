@@ -10,3 +10,32 @@
 .search-input {
   background: url("/image/search.svg") no-repeat 12px;
 }
+body.dark {
+  background-color: #1a202c;
+  color: white;
+  cursor: pointer;
+}
+
+body.dark .bg-white {
+  background-color: #2d3748;
+}
+
+body.dark .text-black {
+  color: white;
+}
+
+body.dark {
+  background-color: #1a202c;
+  color: white;
+}
+
+body.dark select,
+body.dark input {
+  background-color: #2d3748;
+  color: white;
+  border-color: #4a5568;
+}
+
+#darkToggle {
+  cursor: pointer;
+}
