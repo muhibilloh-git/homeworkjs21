@@ -1,25 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>More </title>
-    <link rel="stylesheet" href="./css/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>More Info</title>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-    
 
-    <div class="flex justify-between items-center mb-4">
-        <button onclick="history.back()" class="text-sm border px-4 py-2 rounded">← Back</button>
-        <span class="flex" id="darkToggle"><img src="./image/Group 3.svg" alt=""> Dark Mode</span>
+<body class="bg-gray-100 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white">
+    <!-- Navbar -->
+    <header class="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 dark:text-white">
+        <h1 class="text-lg font-bold">Where in the world?</h1>
+        <button id="darkToggle" class="flex hover:underline cursor-pointer">
+            <img src="./image/Group 3.svg" alt="">
+             Dark Mode</button>
+    </header>
+
+    <!-- Back button -->
+    <div class="px-6 py-6">
+        <a href="index.html"
+            class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 dark:text-white text-gray-800 rounded shadow hover:bg-gray-200 dark:hover:bg-gray-600">
+            ← Back
+        </a>
     </div>
 
-    <div class="max-w-4xl mx-auto p-6">
-        <div id="countryDetails" class="space-y-4"></div>
-    </div>
+    <!-- Main content -->
+    <main class="px-6 pb-10 flex flex-col lg:flex-row gap-12 items-start">
+        <!-- Flag -->
+        <div class="flex-shrink-0 w-full lg:w-1/2">
+            <img id="flag" src="" alt="Country Flag" class="rounded-lg w-full max-w-xl mx-auto" />
+        </div>
 
-    <script src="./js/countries.js"></script>
+        <!-- Info -->
+        <div class="w-full lg:w-1/2 space-y-6">
+            <h2 id="name" class="text-2xl font-bold">Country Name</h2>
+
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="space-y-2">
+                    <p><span class="font-semibold">Native Name:</span> <span id="nativeName"></span></p>
+                    <p><span class="font-semibold">Population:</span> <span id="population"></span></p>
+                    <p><span class="font-semibold">Region:</span> <span id="region"></span></p>
+                    <p><span class="font-semibold">Sub Region:</span> <span id="subregion"></span></p>
+                    <p><span class="font-semibold">Capital:</span> <span id="capital"></span></p>
+                </div>
+                <div class="space-y-2">
+                    <p><span class="font-semibold">Top Level Domain:</span> <span id="tld"></span></p>
+                    <p><span class="font-semibold">Currencies:</span> <span id="currencies"></span></p>
+                    <p><span class="font-semibold">Languages:</span> <span id="languages"></span></p>
+                </div>
+            </div>
+
+            <!-- Border Countries -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                <span class="font-semibold">Border Countries:</span>
+                <div id="borders" class="flex flex-wrap gap-2">
+                    <!-- Border countries will be appended here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script -->
+    <script>
+        const darkToggle = document.getElementById("darkToggle");
+        darkToggle.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+        });
+
+        const country = JSON.parse(localStorage.getItem("selectedCountry"));
+
+        if (country) {
+            document.getElementById("flag").src = country.flag;
+            document.getElementById("name").textContent = country.name;
+            document.getElementById("nativeName").textContent = country.nativeName || "-";
+            document.getElementById("population").textContent = country.population.toLocaleString();
+            document.getElementById("region").textContent = country.region;
+            document.getElementById("subregion").textContent = country.subregion || "-";
+            document.getElementById("capital").textContent = country.capital;
+            document.getElementById("tld").textContent = country.topLevelDomain?.join(", ") || "-";
+            document.getElementById("currencies").textContent = country.currencies?.join(", ") || "-";
+            document.getElementById("languages").textContent = country.languages?.join(", ") || "-";
+
+            const bordersContainer = document.getElementById("borders");
+            bordersContainer.innerHTML = "";
+            if (country.borders && country.borders.length > 0) {
+                country.borders.slice(0, 3).forEach((border) => {
+                    const span = document.createElement("span");
+                    span.className = "px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm shadow";
+                    span.textContent = border;
+                    bordersContainer.appendChild(span);
+                });
+            } else {
+                bordersContainer.innerHTML = "<span>No border countries</span>";
+            }
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./js/more.js"></script>
+    <script src=""></script>
 </body>
+
 </html>

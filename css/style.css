@@ -39,3 +39,35 @@ body.dark input {
 #darkToggle {
   cursor: pointer;
 }
+@media (max-width: 1024px) {
+  #countryContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #countryContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .navbar .actions {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+}
