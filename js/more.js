@@ -1,33 +1,37 @@
-const country = JSON.parse(localStorage.getItem("selectedCountry"));
-const container = document.getElementById("countryDetails");
+const darkToggle = document.getElementById("darkToggle");
+darkToggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark");
+});
 
-const borderExamples = ["France", "Germany", "Belgium"]; // misol uchun
+const country = JSON.parse(localStorage.getItem("selectedCountry"));
 
 if (country) {
-  container.innerHTML = `
-        <img src="${country.flag}" class="w-[560px] h-[400px] " />
-        <h2 class="text-2xl font-bold">${country.name}</h2>
-        <p><strong>Capital:</strong> ${country.capital}</p>
-        <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
-        <p><strong>Liked:</strong> ${country.isLiked ? "Yes" : "No"}</p>
-        <p><strong>Saved to Basket:</strong> ${
-          country.isBasket ? "Yes" : "No"
-        }</p>
-        <div>
-          <strong>Border Countries:</strong>
-          <div class="flex gap-2 mt-2">
-            ${borderExamples
-              .map(
-                (name) =>
-                  `<span class="px-3 py-1 border rounded">${name}</span>`
-              )
-              .join("")}
-          </div>
-        </div>
-      `;
-}
-const darkToggle = document.getElementById("darkToggle");
+  document.getElementById("flag").src = country.flag;
+  document.getElementById("name").textContent = country.name;
+  document.getElementById("nativeName").textContent = country.nativeName || "-";
+  document.getElementById("population").textContent =
+    country.population.toLocaleString();
+  document.getElementById("region").textContent = country.region;
+  document.getElementById("subregion").textContent = country.subregion || "-";
+  document.getElementById("capital").textContent = country.capital;
+  document.getElementById("tld").textContent =
+    country.topLevelDomain?.join(", ") || "-";
+  document.getElementById("currencies").textContent =
+    country.currencies?.join(", ") || "-";
+  document.getElementById("languages").textContent =
+    country.languages?.join(", ") || "-";
 
-darkToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
+  const bordersContainer = document.getElementById("borders");
+  bordersContainer.innerHTML = "";
+  if (country.borders && country.borders.length > 0) {
+    country.borders.slice(0, 3).forEach((border) => {
+      const span = document.createElement("span");
+      span.className =
+        "px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm shadow";
+      span.textContent = border;
+      bordersContainer.appendChild(span);
+    });
+  } else {
+    bordersContainer.innerHTML = "<span>No border countries</span>";
+  }
+}

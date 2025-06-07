@@ -11,9 +11,8 @@
     <!-- Navbar -->
     <header class="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 dark:text-white">
         <h1 class="text-lg font-bold">Where in the world?</h1>
-        <button id="darkToggle" class="flex hover:underline cursor-pointer">
-            <img src="./image/Group 3.svg" alt="">
-             Dark Mode</button>
+        <button id="darkToggle" class="hover:underline cursor-pointer">
+            <img src="./image/Group 3.svg" alt=""> Dark Mode</button>
     </header>
 
     <!-- Back button -->
@@ -60,43 +59,10 @@
         </div>
     </main>
 
-    <!-- Script -->
-    <script>
-        const darkToggle = document.getElementById("darkToggle");
-        darkToggle.addEventListener("click", () => {
-            document.documentElement.classList.toggle("dark");
-        });
 
-        const country = JSON.parse(localStorage.getItem("selectedCountry"));
 
-        if (country) {
-            document.getElementById("flag").src = country.flag;
-            document.getElementById("name").textContent = country.name;
-            document.getElementById("nativeName").textContent = country.nativeName || "-";
-            document.getElementById("population").textContent = country.population.toLocaleString();
-            document.getElementById("region").textContent = country.region;
-            document.getElementById("subregion").textContent = country.subregion || "-";
-            document.getElementById("capital").textContent = country.capital;
-            document.getElementById("tld").textContent = country.topLevelDomain?.join(", ") || "-";
-            document.getElementById("currencies").textContent = country.currencies?.join(", ") || "-";
-            document.getElementById("languages").textContent = country.languages?.join(", ") || "-";
-
-            const bordersContainer = document.getElementById("borders");
-            bordersContainer.innerHTML = "";
-            if (country.borders && country.borders.length > 0) {
-                country.borders.slice(0, 3).forEach((border) => {
-                    const span = document.createElement("span");
-                    span.className = "px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm shadow";
-                    span.textContent = border;
-                    bordersContainer.appendChild(span);
-                });
-            } else {
-                bordersContainer.innerHTML = "<span>No border countries</span>";
-            }
-        }
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src=""></script>
+    <script src="./js/more.js"></script>
 </body>
 
 </html>
