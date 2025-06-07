@@ -5,14 +5,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>More Info</title>
+
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        };
+    </script>
 </head>
 
 <body class="bg-gray-100 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white">
     <!-- Navbar -->
     <header class="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-800 dark:text-white">
         <h1 class="text-lg font-bold">Where in the world?</h1>
-        <button id="darkToggle" class="hover:underline cursor-pointer">
-            <img src="./image/Group 3.svg" alt=""> Dark Mode</button>
+        <button id="darkToggle" class="flex items-center gap-2 cursor-pointer">
+            <img src="./image/Group 3.svg" alt="" class="w-5 h-5" />
+            Dark Mode
+        </button>
     </header>
 
     <!-- Back button -->
@@ -27,7 +37,8 @@
     <main class="px-6 pb-10 flex flex-col lg:flex-row gap-12 items-start">
         <!-- Flag -->
         <div class="flex-shrink-0 w-full lg:w-1/2">
-            <img id="flag" src="" alt="Country Flag" class="rounded-lg w-full max-w-xl mx-auto" />
+            <img id="flag" src="" alt="Country Flag"
+                class="rounded-lg w-full max-w-xl mx-auto transition-all duration-300 hover:scale-105" />
         </div>
 
         <!-- Info -->
@@ -52,17 +63,46 @@
             <!-- Border Countries -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                 <span class="font-semibold">Border Countries:</span>
-                <div id="borders" class="flex flex-wrap gap-2">
-                    <!-- Border countries will be appended here -->
-                </div>
+                <div id="borders" class="flex flex-wrap gap-2"></div>
             </div>
         </div>
     </main>
 
+    <!-- Script -->
+    <script>
+        const darkToggle = document.getElementById("darkToggle");
+        darkToggle.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+        });
 
+        const country = JSON.parse(localStorage.getItem("selectedCountry"));
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./js/more.js"></script>
+        if (country) {
+            document.getElementById("flag").src = country.flag || "";
+            document.getElementById("name").textContent = country.name || "N/A";
+            document.getElementById("nativeName").textContent = country.nativeName || "Not Available";
+            document.getElementById("population").textContent = country.population?.toLocaleString() || "N/A";
+            document.getElementById("region").textContent = country.region || "N/A";
+            document.getElementById("subregion").textContent = country.subregion || "Not Available";
+            document.getElementById("capital").textContent = country.capital || "N/A";
+            document.getElementById("tld").textContent = country.topLevelDomain?.join(", ") || "N/A";
+            document.getElementById("currencies").textContent = country.currencies?.join(", ") || "N/A";
+            document.getElementById("languages").textContent = country.languages?.join(", ") || "N/A";
+
+            const bordersContainer = document.getElementById("borders");
+            bordersContainer.innerHTML = "";
+            if (country.borders && country.borders.length > 0) {
+                country.borders.slice(0, 3).forEach((border) => {
+                    const span = document.createElement("span");
+                    span.className = "px-3 py-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-sm shadow hover:bg-gray-100 dark:hover:bg-gray-600 transition";
+                    span.textContent = border;
+                    bordersContainer.appendChild(span);
+                });
+            } else {
+                bordersContainer.innerHTML = "<span>No border countries</span>";
+            }
+        }
+    </script>
 </body>
 
 </html>
